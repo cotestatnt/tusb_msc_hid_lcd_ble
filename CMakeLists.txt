@@ -6,4 +6,6 @@ cmake_minimum_required(VERSION 3.5)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 add_compile_options("-Wno-format")
+add_compile_options("-Wno-unused-function")
+add_compile_options("-Wno-missing-field-initializers")
 project(tusb-msc-hid-lcd-ble)

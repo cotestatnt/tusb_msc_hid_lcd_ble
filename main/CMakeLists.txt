@@ -14,9 +14,3 @@ idf_component_register(
         "rgb"
         "hmi"
 )
-
-#LVGL framework
-target_compile_options(${COMPONENT_LIB} PRIVATE -Wunused-function)
-target_compile_options(${COMPONENT_LIB} PRIVATE -Wmissing-field-initializers)
-target_compile_options(${COMPONENT_LIB} PRIVATE -Wdeprecated-enum-enum-conversion)
-
