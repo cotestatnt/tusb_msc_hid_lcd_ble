@@ -1,0 +1,19 @@
+{
+    "idf.adapterTargetName": "esp32s3",
+    "idf.portWin": "COM7",
+    "idf.flashType": "UART",
+    "files.associations": {
+        "hmi_main.h": "c",
+        "custom_hmi.h": "c",
+        "led_strip.h": "c",
+        "typename.h": "c",
+        "esp_board.h": "c",
+        "ostream": "cpp",
+        "xstring": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp",
+        "xlocale": "cpp",
+        "xlocinfo": "cpp"
+    }
+}

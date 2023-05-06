@@ -1,0 +1,37 @@
+menu "USB Dev MSC Configuration"
+
+    choice EXAMPLE_STORAGE_MEDIA
+        prompt "Storage Media Used"
+        default EXAMPLE_STORAGE_MEDIA_SPIFLASH
+        help
+            Select the storage media that is exposed to USB host.
+
+        config EXAMPLE_STORAGE_MEDIA_SPIFLASH
+            bool "SPI FLASH"
+
+        config EXAMPLE_STORAGE_MEDIA_SDMMCCARD
+            bool "SDMMC CARD"
+            depends on IDF_TARGET_ESP32S3
+    endchoice
+
+    if EXAMPLE_STORAGE_MEDIA_SDMMCCARD
+
+        choice EXAMPLE_SDMMC_BUS_WIDTH
+            prompt "SD/MMC bus width"
+            default EXAMPLE_SDMMC_BUS_WIDTH_4
+            help
+                Select the bus width of SD or MMC interface.
+                Note that even if 1 line mode is used, D3 pin of the SD card must
+                have a pull-up resistor connected. Otherwise the card may enter
+                SPI mode, the only way to recover from which is to cycle power to the card.
+
+            config EXAMPLE_SDMMC_BUS_WIDTH_4
+                bool "4 lines (D0 - D3)"
+
+            config EXAMPLE_SDMMC_BUS_WIDTH_1
+                bool "1 line (D0)"
+        endchoice
+
+    endif  # EXAMPLE_STORAGE_MEDIA_SDMMCCARD
+
+endmenu
