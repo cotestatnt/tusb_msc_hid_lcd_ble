@@ -106,14 +106,25 @@ static int append_to_file(const char *str)
     {
         ESP_LOGW("WRITE", "%s doesn't exist yet, creating", var_filename);
         pFile = fopen(path, "w");
-        fprintf(pFile, "v1\t v2\t v3\t v4\t v5\t R\t G\t B\n");
-        fclose(pFile);
+        if (pFile) {
+            fprintf(pFile, "v1\t v2\t v3\t v4\t v5\t R\t G\t B\n");
+            fclose(pFile);
+        }
+        else
+            ESP_LOGE("WRITE", "Create file %s error.", var_filename);
+
     }
     pFile = fopen(path, "a");
     if (pFile) {
         fprintf(pFile, str);
         fclose(pFile);
         return 1;
+    }
+    else {
+        // If error on write, unmount and mount then call again save_option() functions
+        msc_unmount();
+        msc_mount();
+        save_option(nullptr);
     }
     return 0;
 }
@@ -186,7 +197,8 @@ static void counter_task(void *arg)
     while (1)
     {
         counter++;
-        myHMI.updateItem(ui_Counter);
+        if (lv_scr_act() == ui_ScreenMain)
+            myHMI.updateItem(ui_Counter);
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }

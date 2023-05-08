@@ -81,8 +81,7 @@ void usb_main(void)
     static wl_handle_t wl_handle = WL_INVALID_HANDLE;
     ESP_ERROR_CHECK(storage_init_spiflash(&wl_handle));
 
-    const tinyusb_msc_spiflash_config_t config_spi = {
-        .wl_handle = wl_handle};
+    const tinyusb_msc_spiflash_config_t config_spi = {.wl_handle = wl_handle};
     ESP_ERROR_CHECK(tinyusb_msc_storage_init_spiflash(&config_spi));
 #else  // CONFIG_EXAMPLE_STORAGE_MEDIA_SPIFLASH
     static sdmmc_card_t *card = NULL;
@@ -134,5 +133,5 @@ void usb_main(void)
     ESP_ERROR_CHECK(gpio_config(&boot_button_config));
 
     // Start USB-HID task
-    xTaskCreatePinnedToCore(usb_hid_task, "USB HID Task", 4096, NULL, 6, NULL, tskNO_AFFINITY);
+    xTaskCreatePinnedToCore(usb_hid_task, "USB HID Task", 8192, NULL, 6, NULL, tskNO_AFFINITY);
 }

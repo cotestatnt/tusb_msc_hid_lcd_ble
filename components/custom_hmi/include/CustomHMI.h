@@ -108,6 +108,8 @@ class CustomHMI {
     void updateItem(lv_obj_t *target) ;
 
     inline lv_obj_t * getCurrentObj() {return current_obj; }
+
+
     inline lv_obj_t * getNextObj() {return next_obj; }
     inline lv_obj_t * getLastScreen() {return last_screen; }
 };
