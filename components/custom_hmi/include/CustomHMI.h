@@ -63,9 +63,9 @@ class CustomHMI {
   private:
     std::vector<menu_item_t> items;
 
-    lv_obj_t *current_obj = nullptr;  // The object actual selected
-    lv_obj_t *next_obj = nullptr;     // The object to be selected
-    lv_obj_t *last_screen = nullptr;
+    lv_obj_t *current_obj = NULL;  // The object actual selected
+    lv_obj_t *next_obj = NULL;     // The object to be selected
+    lv_obj_t *last_screen = NULL;
     lv_group_t * group;
 
     bool isAnotherScreenChild(lv_obj_t *obj, lv_obj_t *current_screen) ;
@@ -84,7 +84,7 @@ class CustomHMI {
     template <class T>
     inline void bindVariable(lv_obj_t *obj, lv_obj_t *value_lbl, T& var) {
       menu_item_t *item = getItemFromObj(obj);
-      if (item != nullptr) {
+      if (item != NULL) {
           item->value_label = value_lbl;
           item->variable = &var;
           item->var_code = typeof(var);

@@ -1,7 +1,7 @@
 #include "CustomHMI.h"
 
 menu_item_t * CustomHMI::getItemFromObj(lv_obj_t *obj) {
-    if (obj != nullptr) {
+    if (obj != NULL) {
         for(menu_item_t &it: items) {
             if (it.obj == obj) {
                 menu_item_t * pt = &it;
@@ -9,13 +9,13 @@ menu_item_t * CustomHMI::getItemFromObj(lv_obj_t *obj) {
             }
         }
     }
-    return nullptr;
+    return NULL;
 }
 
 void CustomHMI::updateVariable(menu_item_t *item, float step) {
     // If this item has a linked variable, edit the value
-    if (item != nullptr) {
-        if (nullptr != item->variable) {
+    if (item != NULL) {
+        if (NULL != item->variable) {
             // printf("Update obj %d\n", item->obj);
             char valStr[16];
 
@@ -81,8 +81,8 @@ void CustomHMI::addMenuItem(lv_obj_t *obj, lv_obj_t *screen) {
     item.screen = screen;
     item.min = DBL_MIN;
     item.max = DBL_MAX;
-    item.cb_function = nullptr;
-    item.variable = nullptr;
+    item.cb_function = NULL;
+    item.variable = NULL;
     item.var_code = 0;
 
     items.push_back(item);
@@ -90,28 +90,16 @@ void CustomHMI::addMenuItem(lv_obj_t *obj, lv_obj_t *screen) {
     // printf("Obj item %d\n", item.obj);
 }
 
-// void CustomHMI::bindVariable(lv_obj_t *obj, lv_obj_t *value_lbl, void *var, int v_code) {
-//     menu_item_t *item = getItemFromObj(obj);
-//     if (item != nullptr) {
-//         item->value_label = value_lbl;
-//         item->variable = var;
-//         item->var_code = v_code;
-//         printf("Var code: %d\n", v_code);
-//     }
-
-//     updateVariable(item, 0);
-// }
-
 void CustomHMI::bindCallback(lv_obj_t *obj, object_callback cb) {
     menu_item_t *item = getItemFromObj(obj);
-    if (item != nullptr) {
+    if (item != NULL) {
         item->cb_function = cb;
     }
 }
 
 void CustomHMI::setVariableRange(lv_obj_t *obj, double min, double max) {
     menu_item_t *item = getItemFromObj(obj);
-    if (item != nullptr) {
+    if (item != NULL) {
         item->min = min;
         item->max = max;
     }
@@ -120,7 +108,7 @@ void CustomHMI::setVariableRange(lv_obj_t *obj, double min, double max) {
 
 void CustomHMI::setMenuScreenActive(lv_obj_t *target) {
     lv_obj_t *current = lv_scr_act();
-    if (nullptr != target && target != current)
+    if (NULL != target && target != current)
     {
         last_screen = current;
         _ui_screen_change(target, LV_SCR_LOAD_ANIM_OVER_LEFT, 500, 0);
@@ -131,18 +119,19 @@ void CustomHMI::setMenuScreenActive(lv_obj_t *target) {
         {
             lv_obj_clear_state(lv_obj_get_child(target, i), LV_STATE_FOCUSED);
         }
-        current_obj = nullptr;
+        current_obj = NULL;
         next_obj = first_child;
-        ESP_LOGI("HMI", "Set new screen. First select obj %d\n ", next_obj);
+        ESP_LOGI("HMI", "Set new screen. First select obj %d ", next_obj);
     }
 }
 
 
 
 bool CustomHMI::isAnotherScreenChild(lv_obj_t *obj, lv_obj_t *current_screen) {
-    lv_obj_t * target_screen = nullptr;
-    if (obj != nullptr)
+    lv_obj_t * target_screen = NULL;
+    if (obj > (lv_obj_t *)0xFF) {
         target_screen = lv_obj_get_screen(obj);
+    }
     if (current_screen != target_screen) {
         return true;
     }
@@ -150,9 +139,9 @@ bool CustomHMI::isAnotherScreenChild(lv_obj_t *obj, lv_obj_t *current_screen) {
 }
 
 void CustomHMI::setItemActive(menu_item_t *item, bool next) {
-    if (item != nullptr) {
-        lv_obj_t *setObj = nullptr;
-        if (nullptr == current_obj) {
+    if (item != NULL) {
+        lv_obj_t *setObj = NULL;
+        if (NULL == current_obj) {
             setObj = next_obj;
         }
         else {
@@ -168,18 +157,19 @@ void CustomHMI::setItemActive(menu_item_t *item, bool next) {
                 }
             }
             // Clear actual selected object
-            ESP_LOGI("HMI", "Clear actual selected item %d\n", current_obj);
-            lv_obj_clear_state(current_obj, LV_STATE_FOCUSED);
+            if (current_obj != NULL) {
+                lv_obj_clear_state(current_obj, LV_STATE_FOCUSED);
+                ESP_LOGI("HMI", "Clear actual selected item %d", current_obj);
 
-            // If next object is in another screen, go back to first
-            if (isAnotherScreenChild(setObj, lv_obj_get_screen(current_obj))){
-                ESP_LOGI("HMI", "Obj %d is last screen child. Go back to first\n", current_obj);
-                setObj = lv_obj_get_child(lv_obj_get_screen(current_obj), 0);
+                // If next object is in another screen, go back to first
+                if (isAnotherScreenChild(setObj, lv_obj_get_screen(current_obj))){
+                    ESP_LOGI("HMI", "Obj %d is last screen child. Go back to first", current_obj);
+                    setObj = lv_obj_get_child(lv_obj_get_screen(current_obj), 0);
+                }
             }
         }
-
-        if (nullptr != setObj) {
-            ESP_LOGI("HMI", "Focus next item active %d\n", setObj);
+        if (NULL != setObj) {
+            ESP_LOGI("HMI", "Focus next item active %d", setObj);
             lv_group_focus_obj(setObj);
             lv_obj_add_state(setObj, LV_STATE_FOCUSED);
             current_obj = setObj;
