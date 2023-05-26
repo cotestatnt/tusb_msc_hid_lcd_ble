@@ -3,7 +3,8 @@
 ESP-CUSTOM-KIT is an ESP32-S3 based development board.
 
 
-![connections](https://user-images.githubusercontent.com/27758688/233414422-b88b0928-a68a-4326-a385-720981b6b63a.png)
+![connections](https://github.com/cotestatnt/tusb_msc_hid_lcd_ble/assets/27758688/3dec5ed8-2fbc-4125-ab53-c8fa095990d3)
+
 
 ESP-CUSTOM-KIT features the following integrated components:
 
